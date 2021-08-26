@@ -1,0 +1,152 @@
+package StudentProject;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Scanner;
+
+class Student{
+	int student_rollno ;
+	int student_id;
+	String student_name;
+	int student_age;
+	int student_marks;
+	public Student(int student_rollno, int student_id, String student_name, int student_age, int student_marks) {
+		this.student_rollno = student_rollno;
+		this.student_id = student_id;
+		this.student_name = student_name;
+		this.student_age = student_age;
+		this.student_marks = student_marks;
+	}
+	public String toString() {
+		return "Student [student_rollno=" + student_rollno + ", student_id=" + student_id + ", student_name="
+				+ student_name + ", student_age=" + student_age + ", student_marks=" + student_marks + "]";
+	}
+}
+	class Sortbystudent_rollno implements Comparator<Student> 
+
+	    public int compare(Student a, Student b)
+	    {
+	        return a.student_rollno - b.student_rollno;
+	    }
+	}
+	class Sortbystudent_id implements Comparator<Student>{
+
+		public int compare(Student a, Student b) {
+			
+			return a.student_id - b.student_id;
+		}
+		
+	}
+	class Sortbystudent_name implements Comparator<Student> {
+
+		public int compare(Student a, Student b) {
+			
+			return a.student_name.compareTo(b.student_name);
+		}
+		
+	    
+	
+   }
+	class Sortbystudent_age implements Comparator<Student>{
+
+		public int compare(Student a, Student b) {
+			
+			return a.student_age - b.student_age;
+		}
+		
+	}
+	class Sortbystudent_marks implements Comparator<Student>{
+
+		public int compare(Student a, Student b) {
+			
+			return a.student_marks - b.student_marks;
+		}
+		
+	}
+
+
+public class StudentDetailsApp {
+
+	public static void main(String[] args) {
+		ArrayList<Student> details = new ArrayList<Student>();
+		details.add(new Student(2,23,"Rahul",20,76));
+		details.add(new Student(4,22,"Vinay",22,72));
+		details.add(new Student(3,25,"Nihal",21,83));
+		details.add(new Student(6,24,"Rohit",24,81));
+		details.add(new Student(5,26,"Aakash",23,90));
+		
+		System.out.println("Enter 1 to sort the Student list by Student Rollno");
+		System.out.println("Enter 2 to sort the Student list by Student Id");
+		System.out.println("Enter 3 to sort the Student list by Student Name");
+		System.out.println("Enter 4 to sort the Student list by Student Age");
+		System.out.println("Enter 5 to sort the Student list by Student Marks");
+		System.out.println("Enter 6 to exit ");
+		
+		
+		while(true) {
+			try {
+		Scanner scanner = new Scanner(System.in);
+		System.out.print("\nEnter the choice : ");
+		int choice = scanner.nextInt();
+		
+		switch (choice) {
+		case 1:
+			Collections.sort(details, new Sortbystudent_rollno());
+			  
+	        System.out.println("\nSorted by Student rollno: ");
+	        for (int i = 0; i < details.size(); i++)
+	            System.out.println(details.get(i));
+	        break;
+	    
+		case 2:
+			Collections.sort(details, new Sortbystudent_id());
+			  
+	        System.out.println("\nSorted by Student Id: ");
+	        for (int i = 0; i < details.size(); i++)
+	            System.out.println(details.get(i));
+	        break;
+	    
+		case 3:
+			Collections.sort(details, new Sortbystudent_name());
+			  
+	        System.out.println("\nSorted by Student Name: ");
+	        for (int i = 0; i < details.size(); i++)
+	            System.out.println(details.get(i));
+	        break;
+	    
+		case 4:
+			Collections.sort(details, new Sortbystudent_age());
+			  
+	        System.out.println("\nSorted by Student Age: ");
+	        for (int i = 0; i < details.size(); i++)
+	            System.out.println(details.get(i));
+	        break;
+	        
+		case 5:
+			Collections.sort(details, new Sortbystudent_marks());
+			  
+	        System.out.println("\nSorted by Student Marks: ");
+	        for (int i = 0; i < details.size(); i++)
+	            System.out.println(details.get(i));
+	        break;
+		case 6:
+			System.out.println("Thank You");
+			return;
+			
+		default:
+			System.out.println("You have entered wrong choice");
+			
+		}
+		
+		}catch(Exception e) {
+			break;
+			
+		}
+		}
+		
+		
+
+	}
+
+}
