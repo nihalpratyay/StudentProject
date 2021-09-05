@@ -1,0 +1,102 @@
+package com.nihal.jdbc;
+
+import java.math.BigInteger;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Scanner;
+
+public class CrudInsert {
+
+	public static void main(String[] args) {
+		Connection con=null;
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			con=DriverManager.getConnection("jdbc:mysql://localhost:3306/emp?user=root&password=4109");
+			con.setAutoCommit(false);
+			int id;
+			String username;
+			String password;
+			long phone;
+			String Fullname;
+			String address;
+			boolean valid;
+			
+			Scanner scanner = new Scanner(System.in);
+			System.out.println("Enter your id: ");
+			id = scanner.nextInt();
+			System.out.println("Enter your username: ");
+			username = scanner.next();
+			System.out.println("Enter your password: ");
+		
+			do {
+				password = scanner.next();
+				if (password.length() < 8) {
+
+					valid = false;
+					System.out.println("invalid password please reenter");
+					continue;
+				} else {
+					valid = true;
+				}
+			} while (!valid);
+			System.out.println("enter your phonenumber ");
+
+			do {
+				phone = scanner.nextLong();
+				int length = String.valueOf(phone).length();
+				if (length < 10) {
+					valid = false;
+					System.out.println("Given phone number is invalid,please enter valid phone number");
+					continue;
+				}
+				if (length < 10) {
+					valid = true;
+					System.out.println("Given phone number is invalid,please enter valid phone number");
+					continue;
+				}
+			} while (!valid);
+
+			scanner.nextLine();
+			System.out.println("Enter your fullname: ");
+			Fullname = scanner.nextLine();
+			System.out.println("Enter your address: ");
+			address = scanner.nextLine();
+		    
+			PreparedStatement pst = con.prepareStatement("insert into user values(?,?,?,?,?,?)");
+			pst.setInt(1, id);
+			pst.setString(2, username);
+			pst.setString(3, password);
+			pst.setLong(4, phone);
+			pst.setString(5, Fullname);
+			pst.setString(6, address);
+			pst.execute();
+			System.out.println(" Data inserted");
+			con.commit();
+			
+			
+			
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			try {
+				con.rollback();
+				System.out.println("Data rollback");
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		} finally {
+			try {
+				con.close();
+				System.out.println("Connection Closed");
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+
+	}
+
+}
