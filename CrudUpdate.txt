@@ -1,0 +1,72 @@
+package com.nihal.jdbc;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Scanner;
+
+public class CrudUpdate {
+
+	public static void main(String[] args) {
+		Connection con=null;
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			con=DriverManager.getConnection("jdbc:mysql://localhost:3306/emp?user=root&password=4109");
+			String username2;
+			String password2;
+	
+			Scanner scanner = new Scanner(System.in);
+			System.out.println("Enter your username: ");
+			username2 = scanner.nextLine();
+			System.out.println("Enter your password: ");
+			password2 = scanner.nextLine();
+			Statement smt = con.createStatement();
+
+			String q = "Select * from user where username='" + username2 + "' and password='" + password2 + "'";
+
+			ResultSet rs = smt.executeQuery(q);
+
+			if (rs.next()) {
+
+				System.out.println("user id:" + rs.getInt(1));
+				System.out.println("user Name:" + rs.getString(2));
+				System.out.println("user password:" + rs.getString(3));
+				System.out.println("user phonenumber:" + rs.getLong(4));
+				System.out.println("user fullname:" + rs.getString(5));
+				System.out.println("user address:" + rs.getString(6));
+
+				System.out.println("Sure To update Above Record Yes/No?");
+				String ch = scanner.next();
+				if (ch.equalsIgnoreCase("yes")) {
+					scanner.nextLine();
+					System.out.println("update address");
+					String useraddress1 = scanner.nextLine();
+					String sql = "update  user set address='" + useraddress1 + "' where username='" + username2 + "' and password='"+password2+"'";
+					smt.executeUpdate(sql);
+					System.out.println("record updated");
+				} else {
+					System.out.println("Record Not Found...");
+				}
+
+			}
+			System.out.println("Query executed");
+			
+		
+			
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+		}finally {
+			try {
+				con.close();
+				System.out.println("Connection Closed");
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+}
