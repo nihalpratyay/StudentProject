@@ -1,0 +1,51 @@
+package com.nihal.jdbc;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.Scanner;
+
+public class CrudDelete {
+
+	public static void main(String[] args) {
+		Connection con=null;
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			con=DriverManager.getConnection("jdbc:mysql://localhost:3306/emp?user=root&password=4109");
+			String username3;
+			String password3;
+	
+			Scanner scanner = new Scanner(System.in);
+			System.out.println("Enter your username: ");
+			username3 = scanner.nextLine();
+			System.out.println("Enter your password: ");
+			password3 = scanner.nextLine();
+			PreparedStatement pst2 = con.prepareStatement("delete from user where username=? and password=?");
+			pst2.setString(1, username3);
+			pst2.setString(2, password3);
+			int row = pst2.executeUpdate();
+			if (row == 1) {
+				System.out.println("record deleted");
+			} else {
+				System.out.println("no records to delete");
+			}
+			System.out.println("Query executed");
+			
+		
+			
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+			
+		}finally {
+			try {
+				con.close();
+				System.out.println("Connection Closed");
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+	}
+
+}
