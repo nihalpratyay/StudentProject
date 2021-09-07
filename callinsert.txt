@@ -1,0 +1,39 @@
+package com.nihal.jdbc1;
+
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+public class CallableInsert {
+
+	public static void main(String[] args) {
+		Connection con = null;
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			System.out.println("Load register done");
+			con=DriverManager.getConnection("jdbc:mysql://localhost:3306/emp?user=root&password=4109");
+			System.out.println("connection has been established");
+			CallableStatement cst=con.prepareCall("{call emp.insertinto(?,?,?,?)}");
+			System.out.println("statement has been created");
+			cst.setString(1, "ankit123");
+			cst.setString(2, "anand123");
+			cst.setInt(3, 2467826);
+			cst.setDouble(4, 20000.00);
+			cst.execute();
+			System.out.println("Query Executed");
+		} catch (SQLException | ClassNotFoundException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				con.close();
+				System.out.println("Close the connection");
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+
+	}
+
+}
